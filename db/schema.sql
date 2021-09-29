@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS public.products
     product_id serial NOT NULL,
     name character varying(50),
     slogan character varying(150),
-    description character varying(300),
+    description character varying(500),
     category character varying(50),
     default_price money,
     PRIMARY KEY (product_id)
