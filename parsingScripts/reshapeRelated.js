@@ -36,6 +36,9 @@ fs.createReadStream(path.resolve(CSV_DIR, 'cleanedRelated.csv'))
       idx += 1;
       tempArray = [];
       tempArray.push(relatedId);
+    } else if (prevID !== idx) {
+      writeFile.write(`\n${idx},${idx},"[]"`);
+      idx += 1;
     } else {
       tempArray.push(relatedId);
     }

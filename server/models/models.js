@@ -1,4 +1,4 @@
-const db = require('../index');
+const pool = require('../../db');
 
 const models = {
   test: (callback) => {

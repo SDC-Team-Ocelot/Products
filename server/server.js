@@ -1,5 +1,4 @@
 const express = require('express');
-
 const morgan = require('morgan');
 
 // const parseProduct = require('../parsingScripts/parseProduct');
@@ -10,10 +9,8 @@ const morgan = require('morgan');
 // const parseRelated = require('../parsingScripts/parseRelated');
 
 // const reshapedRelated = require('../parsingScripts/reshapeRelated');
-
 // const combineProductAndRelated = require('../parsingScripts/combineProductAndRelated');
-
-const parseCombinedProductsAndRelated = require('../parsingScripts/parseCombinedProductAndRelated');
+// const parseCombinedProductsAndRelated = require('../parsingScripts/parseCombinedProductAndRelated');
 
 const server = express();
 const routes = require('./routes');

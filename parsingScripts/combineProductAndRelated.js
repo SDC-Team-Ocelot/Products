@@ -10,6 +10,7 @@ const dataProducts = dataForge.readFileSync(path.resolve(CSV_DIR, 'cleanedProduc
 // headers: id,product_id,relatedArray
 const dataRelated = dataForge.readFileSync(path.resolve(CSV_DIR, 'reshapedRelated.csv')).parseCSV();
 
+console.log('starting join');
 const dataMerged = dataProducts.join(
   dataRelated,
 
