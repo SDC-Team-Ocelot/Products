@@ -16,7 +16,10 @@ Endpoints for related items requests. Will be identical to Products Api
   - [Express](https://www.npmjs.com/package/express)
   - [Morgan](https://www.npmjs.com/package/morgan)
   - [Nodemon](https://www.npmjs.com/package/nodemon)
+    [CSV-Parse](https://www.npmjs.com/package/csv-parse)
+    [pg](https://www.npmjs.com/package/pg)
+    [pg-hstore](https://www.npmjs.com/package/pg-hstore)
 
   - installation script:
-  - `npm i express`
-  - `npm i nodemon morgan --save-dev`
+  - `npm i express morgan`
+  - `npm i nodemon csv-parse pg pg-hstore --save-dev`
