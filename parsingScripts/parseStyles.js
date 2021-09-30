@@ -16,7 +16,6 @@ fs.createReadStream(path.resolve(CSV_DIR, 'styles.csv'))
     parse({
       delimiter: ',',
       from_line: 2,
-      // to_line: 50,
     }),
   )
   .on('data', (row) => {
@@ -34,7 +33,17 @@ fs.createReadStream(path.resolve(CSV_DIR, 'styles.csv'))
     } else if (isNaN(+row[4]) && row[4] !== 'null') {
       errorRows.push(row);
     } else {
-      writeFile.write(`\n${row[0]},${row[1]},"${row[2]}",${row[3]},${row[4]},${row[5]}`);
+      let tempSale = parseFloat(row[3]).toFixed(2);
+      let tempOG = parseFloat(row[4]).toFixed(2);
+      if (isNaN(tempSale)) { tempSale = null; }
+      if (isNaN(tempOG)) { tempOG = null; }
+      let defaultBool;
+      if (row[5] === '1') {
+        defaultBool = true;
+      } else {
+        defaultBool = false;
+      }
+      writeFile.write(`\n${row[0]},${row[1]},"${row[2]}","${tempSale}","${tempOG}",${defaultBool}`);
     }
   })
   .on('end', () => {
