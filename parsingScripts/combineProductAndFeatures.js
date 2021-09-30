@@ -4,11 +4,11 @@ require('data-forge-fs');
 const path = require('path');
 const CSV_DIR = path.resolve(__dirname, '..', 'csv');
 const startTime = new Date();
-// headers: product_id,name,slogan,description,category,default_price
-const dataProducts = dataForge.readFileSync(path.resolve(CSV_DIR, 'cleanedProduct.csv')).parseCSV();
+// headers: id,name,slogan,description,category,default_price,relatedArray
+const dataProducts = dataForge.readFileSync(path.resolve(CSV_DIR, 'cleanedCombinedProductAndRelated.csv')).parseCSV();
 
-// headers: id,product_id,relatedArray
-const dataRelated = dataForge.readFileSync(path.resolve(CSV_DIR, 'reshapedRelated.csv')).parseCSV();
+// headers: id,product_id,featuresArray
+const dataRelated = dataForge.readFileSync(path.resolve(CSV_DIR, 'reshapedFeatures.csv')).parseCSV();
 
 console.log('starting join');
 const dataMerged = dataProducts.join(
@@ -24,10 +24,11 @@ const dataMerged = dataProducts.join(
     description: JSON.stringify(left.description),
     category: JSON.stringify(left.category),
     default_price: left.default_price,
-    relatedArray: right.relatedArray,
+    relatedArray: left.relatedArray,
+    featuresArray: right.featuresArray,
   }),
 );
 
-dataMerged.asCSV().writeFileSync(path.resolve(CSV_DIR, 'combinedProductsAndRelated.csv'));
+dataMerged.asCSV().writeFileSync(path.resolve(CSV_DIR, 'combineProductAndFeatures.csv'));
 const endTime = new Date();
 console.log(`${endTime - startTime}ms to complete operation`);

@@ -4,7 +4,7 @@ const path = require('path');
 
 const CSV_DIR = path.resolve(__dirname, '..', 'csv');
 
-const header = 'product_id,name,slogan,description,category,default_price';
+const header = 'id,name,slogan,description,category,default_price';
 const writeFile = fs.createWriteStream(path.resolve(CSV_DIR, 'cleanedProduct.csv'));
 writeFile.write(header);
 
@@ -30,7 +30,8 @@ fs.createReadStream(path.resolve(CSV_DIR, 'product.csv'))
     ) {
       errorRows.push(row);
     } else {
-      writeFile.write(`\n${row[0]},"${row[1]}","${row[2]}","${row[3]}","${row[4]}",${row[5]}`);
+      let tempMoney = parseFloat(row[5]).toFixed(2);
+      writeFile.write(`\n${row[0]},"${row[1]}","${row[2]}","${row[3]}","${row[4]}","${tempMoney}"`);
     }
   })
   .on('end', () => {

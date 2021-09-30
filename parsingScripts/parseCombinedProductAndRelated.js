@@ -4,7 +4,7 @@ const path = require('path');
 
 const CSV_DIR = path.resolve(__dirname, '..', 'csv');
 
-const header = 'product_id,name,slogan,description,category,default_price,relatedArray';
+const header = 'id,name,slogan,description,category,default_price,relatedArray';
 const writeFile = fs.createWriteStream(path.resolve(CSV_DIR, 'cleanedCombinedProductAndRelated.csv'));
 writeFile.write(header);
 
@@ -18,7 +18,7 @@ fs.createReadStream(path.resolve(CSV_DIR, 'combinedProductsAndRelated.csv'))
     }),
   )
   .on('data', (row) => {
-    writeFile.write(`\n${row[0]},${row[1]},${row[2]},${row[3]},${row[4]},${row[5]},"${row[6]}"`);
+    writeFile.write(`\n${row[0]},${row[1]},${row[2]},${row[3]},${row[4]},"${row[5]}","${row[6]}"`);
   })
   .on('end', () => {
     const endTime = new Date();

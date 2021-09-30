@@ -17,22 +17,14 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS public.products
 (
-    product_id serial NOT NULL,
+    id serial NOT NULL,
     name character varying(50),
     slogan character varying(150),
     description character varying(500),
     category character varying(50),
-    default_price money,
+    default_price character varying(50),
     relatedArray character varying(100),
-    PRIMARY KEY (product_id)
-);
-
-CREATE TABLE IF NOT EXISTS public.features
-(
-    id serial NOT NULL,
-    product_id integer,
-    feature character varying(50),
-    value character varying(50),
+    featuresArray character varying(500),
     PRIMARY KEY (id)
 );
 
@@ -59,21 +51,16 @@ CREATE TABLE IF NOT EXISTS public.styles
     style_id serial NOT NULL,
     product_id integer,
     name character varying(50),
-    sale_price money,
-    original_price money,
+    sale_price character varying(50),
+    original_price character varying(50),
     default_style boolean,
     PRIMARY KEY (style_id)
 );
 
-ALTER TABLE public.features
-    ADD FOREIGN KEY (product_id)
-    REFERENCES public.products (product_id)
-    NOT VALID;
-
 
 ALTER TABLE public.styles
     ADD FOREIGN KEY (product_id)
-    REFERENCES public.products (product_id)
+    REFERENCES public.products (id)
     NOT VALID;
 
 
@@ -90,11 +77,7 @@ ALTER TABLE public.sku
 
 
 COPY products
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedCombinedProductAndRelated.csv'
-        DELIMITER ','
-        CSV HEADER;
-COPY features
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedFeatures.csv'
+    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedCombinedProductsAndFeatures.csv'
         DELIMITER ','
         CSV HEADER;
 COPY styles

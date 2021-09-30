@@ -4,18 +4,19 @@ const path = require('path');
 
 const CSV_DIR = path.resolve(__dirname, '..', 'csv');
 
-const header = 'id,product_id,relatedArray';
-const writeFile = fs.createWriteStream(path.resolve(CSV_DIR, 'reshapedRelated.csv'));
+const header = 'id,product_id,featuresArray';
+const writeFile = fs.createWriteStream(path.resolve(CSV_DIR, 'reshapedFeatures.csv'));
 writeFile.write(header);
 
 const startTime = new Date();
+
 let idx = 1;
 let tempArray = [];
 let prevID = 0;
 
-console.log('Reshaping related.csv...');
+console.log('Reshaping features.csv...');
 
-fs.createReadStream(path.resolve(CSV_DIR, 'cleanedRelated.csv'))
+fs.createReadStream(path.resolve(CSV_DIR, 'cleanedFeatures.csv'))
   .pipe(
     parse({
       delimiter: ',',
@@ -24,22 +25,23 @@ fs.createReadStream(path.resolve(CSV_DIR, 'cleanedRelated.csv'))
   )
   .on('data', (row) => {
     const productId = JSON.parse(row[1]);
-    const relatedId = JSON.parse(row[2]);
+    const feature = (row[2]);
+    const value = (row[3]);
 
     if (prevID === 0) {
       prevID = productId;
-      tempArray.push(relatedId);
+      tempArray.push([feature, value]);
     } else if (productId !== prevID) {
       writeFile.write(`\n${idx},${prevID},"[${tempArray}]"`);
       prevID = productId;
       idx += 1;
       tempArray = [];
-      tempArray.push(relatedId);
+      tempArray.push([feature, value]);
     } else if (prevID !== idx) {
       writeFile.write(`\n${idx},${idx},"[]"`);
       idx += 1;
     } else {
-      tempArray.push(relatedId);
+      tempArray.push([feature, value]);
     }
   })
   .on('end', () => {

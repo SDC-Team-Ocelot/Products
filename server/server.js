@@ -12,6 +12,10 @@ const morgan = require('morgan');
 // const combineProductAndRelated = require('../parsingScripts/combineProductAndRelated');
 // const parseCombinedProductsAndRelated = require('../parsingScripts/parseCombinedProductAndRelated');
 
+// const reshapeFeatures = require('../parsingScripts/reshapeFeatures');
+// const combineProductAndFeatures = require('../parsingScripts/combineProductAndFeatures');
+// const parseCombinedProductsAndFeatures = require('../parsingScripts/parseCombinedProductsAndFeatures');
+
 const server = express();
 const routes = require('./routes');
 
