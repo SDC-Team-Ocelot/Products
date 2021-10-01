@@ -68,6 +68,18 @@ const controllers = {
       }
     });
   },
+  related: (req, res) => {
+    models.related(req.params.id, (err, data) => {
+      if (err) {
+        console.error('Error on related endpoint\n', err);
+        res.status(400).send(err);
+      } else {
+        const { relatedarray } = data.rows[0];
+        const results = JSON.parse(relatedarray);
+        res.status(200).send(results);
+      }
+    });
+  },
 };
 
 module.exports = controllers;

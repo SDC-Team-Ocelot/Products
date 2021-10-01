@@ -4,7 +4,8 @@
   "description": "Endpoints for related items requests. Will be identical to Products Api",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon server/index.js"
+    "start-dev": "nodemon server/index.js",
+    "start": "node server/index.js"
   },
   "repository": {
     "type": "git",

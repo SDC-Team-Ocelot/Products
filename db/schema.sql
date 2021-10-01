@@ -6,8 +6,8 @@ CREATE DATABASE sdc
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
+    -- LC_COLLATE = 'C'
+    -- LC_CTYPE = 'C'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
@@ -57,23 +57,23 @@ CREATE TABLE IF NOT EXISTS public.styles
     PRIMARY KEY (style_id)
 );
 
-COPY products
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedCombinedProductsAndFeatures.csv'
-        DELIMITER ','
-        CSV HEADER;
-COPY styles
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedStyles.csv'
-        DELIMITER ','
-        NULL 'null'
-        CSV HEADER;
-COPY skus
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedSkus.csv'
-        DELIMITER ','
-        CSV HEADER;
-COPY photos
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedPhotos.csv'
-        DELIMITER ','
-        CSV HEADER;
+-- COPY products
+--     FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedCombinedProductsAndFeatures.csv'
+--         DELIMITER ','
+--         CSV HEADER;
+-- COPY styles
+--     FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedStyles.csv'
+--         DELIMITER ','
+--         NULL 'null'
+--         CSV HEADER;
+-- COPY skus
+--     FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedSkus.csv'
+--         DELIMITER ','
+--         CSV HEADER;
+-- COPY photos
+--     FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedPhotos.csv'
+--         DELIMITER ','
+--         CSV HEADER;
 
 ALTER TABLE public.styles
     ADD FOREIGN KEY (product_id)

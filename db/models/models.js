@@ -4,7 +4,6 @@ const models = {
   products: ({ page, count }, callback) => {
     let queryMessage;
     let params;
-    console.log(page, count);
     if (!page && !count) {
       queryMessage = 'SELECT id, name, slogan, description, category, default_price FROM products LIMIT 5';
       pool.query(queryMessage, (err, res) => {
@@ -49,7 +48,7 @@ const models = {
     });
   },
   styles: (params, callback) => {
-    const queryMessage1 = `
+    const queryMessage = `
       SELECT
         s.style_id, s.name, s.original_price, s.sale_price,
         s.default_style AS "default?",
@@ -82,7 +81,13 @@ const models = {
       GROUP BY s.style_id
       ORDER BY s.style_id ASC
     `;
-    pool.query(queryMessage1, [params], (err, res) => {
+    pool.query(queryMessage, [params], (err, res) => {
+      callback(err, res);
+    });
+  },
+  related: (params, callback) => {
+    const queryMessage = 'SELECT relatedarray FROM products WHERE id=$1';
+    pool.query(queryMessage, [params], (err, res) => {
       callback(err, res);
     });
   },
