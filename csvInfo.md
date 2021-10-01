@@ -5,6 +5,8 @@
   - 12083ms to parse
   - 7907ms to join related
   - 5074ms to clean joined related csv
+  - 8303ms to join features
+  - 5844ms to clean joined features csv
 
 ### features.csv
   - id, **product_id**, feature, value
