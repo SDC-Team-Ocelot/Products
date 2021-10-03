@@ -6,92 +6,100 @@ CREATE DATABASE sdc
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
+    -- LC_COLLATE = 'C'
+    -- LC_CTYPE = 'C'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
-\c sdc;
+-- \c sdc;
 
-BEGIN;
+-- BEGIN;
 
-CREATE TABLE IF NOT EXISTS public.products
-(
-    id serial NOT NULL,
-    name character varying(50),
-    slogan character varying(150),
-    description character varying(500),
-    category character varying(50),
-    default_price character varying(50),
-    relatedArray character varying(100),
-    featuresArray character varying(500),
-    PRIMARY KEY (id)
-);
+-- CREATE TABLE IF NOT EXISTS public.products
+-- (
+--     id serial NOT NULL,
+--     name character varying(50),
+--     slogan character varying(150),
+--     description character varying(500),
+--     category character varying(50),
+--     default_price character varying(50),
+--     relatedArray character varying(100),
+--     featuresArray character varying(500),
+--     PRIMARY KEY (id)
+-- );
 
-CREATE TABLE IF NOT EXISTS public.sku
-(
-    id serial NOT NULL,
-    style_id integer,
-    size character varying(50),
-    quantity integer,
-    PRIMARY KEY (id)
-);
+-- CREATE TABLE IF NOT EXISTS public.skus
+-- (
+--     id serial NOT NULL,
+--     style_id integer,
+--     size character varying(50),
+--     quantity integer,
+--     PRIMARY KEY (id)
+-- );
 
-CREATE TABLE IF NOT EXISTS public.photos
-(
-    id serial NOT NULL,
-    style_id integer,
-    url text,
-    thumbnail_url text,
-    PRIMARY KEY (id)
-);
+-- CREATE TABLE IF NOT EXISTS public.photos
+-- (
+--     id serial NOT NULL,
+--     style_id integer,
+--     url text,
+--     thumbnail_url text,
+--     PRIMARY KEY (id)
+-- );
 
-CREATE TABLE IF NOT EXISTS public.styles
-(
-    style_id serial NOT NULL,
-    product_id integer,
-    name character varying(50),
-    sale_price character varying(50),
-    original_price character varying(50),
-    default_style boolean,
-    PRIMARY KEY (style_id)
-);
+-- CREATE TABLE IF NOT EXISTS public.styles
+-- (
+--     style_id serial NOT NULL,
+--     product_id integer,
+--     name character varying(50),
+--     sale_price character varying(50),
+--     original_price character varying(50),
+--     default_style boolean,
+--     PRIMARY KEY (style_id)
+-- );
+
+-- COPY products
+--     FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedCombinedProductsAndFeatures.csv'
+--         DELIMITER ','
+--         CSV HEADER;
+-- COPY styles
+--     FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedStyles.csv'
+--         DELIMITER ','
+--         NULL 'null'
+--         CSV HEADER;
+-- COPY skus
+--     FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedSkus.csv'
+--         DELIMITER ','
+--         CSV HEADER;
+-- COPY photos
+--     FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedPhotos.csv'
+--         DELIMITER ','
+--         CSV HEADER;
+
+-- ALTER TABLE public.styles
+--     ADD FOREIGN KEY (product_id)
+--     REFERENCES public.products (id)
+--     NOT VALID;
 
 
-ALTER TABLE public.styles
-    ADD FOREIGN KEY (product_id)
-    REFERENCES public.products (id)
-    NOT VALID;
+-- ALTER TABLE public.photos
+--     ADD FOREIGN KEY (style_id)
+--     REFERENCES public.styles (style_id)
+--     NOT VALID;
 
 
-ALTER TABLE public.photos
-    ADD FOREIGN KEY (style_id)
-    REFERENCES public.styles (style_id)
-    NOT VALID;
+-- ALTER TABLE public.skus
+--     ADD FOREIGN KEY (style_id)
+--     REFERENCES public.styles (style_id)
+--     NOT VALID;
 
+-- CREATE INDEX products_id_index ON products (id);
+-- CREATE INDEX skus_id_index ON skus (id);
+-- CREATE INDEX skus_style_id_index ON skus (style_id);
+-- CREATE INDEX photos_id_index ON photos (id);
+-- CREATE INDEX photos_style_id_index ON photos (style_id);
+-- CREATE INDEX styles_style_id_index ON styles (style_id);
+-- CREATE INDEX styles_product_id_index ON styles (product_id);
 
-ALTER TABLE public.sku
-    ADD FOREIGN KEY (style_id)
-    REFERENCES public.styles (style_id)
-    NOT VALID;
+-- ANALYZE;
 
-
-COPY products
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedCombinedProductsAndFeatures.csv'
-        DELIMITER ','
-        CSV HEADER;
-COPY styles
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedStyles.csv'
-        DELIMITER ','
-        NULL 'null'
-        CSV HEADER;
-COPY sku
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedSkus.csv'
-        DELIMITER ','
-        CSV HEADER;
-COPY photos
-    FROM '/Users/jeffliu/HackReactor/SDC/Related/csv/cleanedPhotos.csv'
-        DELIMITER ','
-        CSV HEADER;
-
-END;
+-- END;
