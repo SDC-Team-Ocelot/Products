@@ -5,7 +5,8 @@
   "main": "server/index.js",
   "scripts": {
     "start-dev": "nodemon server/index.js",
-    "start": "node server/index.js"
+    "start": "pm2 start server/index.js",
+    "stop": "pm2 stop server/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,8 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
-    "pg-hstore": "^2.3.4"
+    "pg-hstore": "^2.3.4",
+    "pm2": "^5.1.2"
   },
   "devDependencies": {
     "data-forge": "^1.8.17",

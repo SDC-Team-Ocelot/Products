@@ -13,4 +13,9 @@ router.route('/products/:id/styles')
 router.route('/products/:id/related')
   .get(controllers.related);
 
+router.route('/test')
+  .get((req, res) => {
+    res.status(200).send('At Test Endpoint');
+  });
+
 module.exports = router;
