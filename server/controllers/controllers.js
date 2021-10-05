@@ -1,15 +1,14 @@
 const models = require('../../db/models/models');
 
 const controllers = {
-  products: (req, res) => {
+  products: async (req, res) => {
     const args = {};
     if (req.query) {
       args.page = req.query.page;
       args.count = req.query.count;
     }
-    models.products(args, (err, data) => {
+    await models.products(args, (err, data) => {
       if (err) {
-        console.error('Error on products endpoint\n', err);
         res.status(400).send(err);
       } else {
         const results = data.rows;
@@ -17,10 +16,9 @@ const controllers = {
       }
     });
   },
-  productId: (req, res) => {
-    models.productId(req.params.id, (err, data) => {
+  productId: async (req, res) => {
+    await models.productId(req.params.id, (err, data) => {
       if (err) {
-        console.error('Error on product id endpoint\n', err);
         res.status(400).send(err);
       } else {
         const productInfo = data.rows[0];
@@ -45,10 +43,9 @@ const controllers = {
       }
     });
   },
-  styles: (req, res) => {
-    models.styles(req.params.id, (err, data) => {
+  styles: async (req, res) => {
+    await models.styles(req.params.id, (err, data) => {
       if (err) {
-        console.error('Error on styles endpoint\n', err);
         res.status(400).send(err);
       } else {
         const productInfo = data.rows;
@@ -68,10 +65,9 @@ const controllers = {
       }
     });
   },
-  related: (req, res) => {
-    models.related(req.params.id, (err, data) => {
+  related: async (req, res) => {
+    await models.related(req.params.id, (err, data) => {
       if (err) {
-        console.error('Error on related endpoint\n', err);
         res.status(400).send(err);
       } else {
         const { relatedarray } = data.rows[0];

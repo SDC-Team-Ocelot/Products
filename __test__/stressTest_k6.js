@@ -16,28 +16,28 @@ export default function () {
   let responses = http.batch([
     [
       'GET',
-      `${BASE_URL}/products/1/`,
+      `${BASE_URL}/products/41232/styles`,
       null,
       { tags: { name: 'homepage' } },
     ],
-    [
-      'GET',
-      `${BASE_URL}/products/1/styles`,
-      null,
-      { tags: { name: 'homepage' } },
-    ],
-    [
-      'GET',
-      `${BASE_URL}/products/2/styles`,
-      null,
-      { tags: { name: 'homepage' } },
-    ],
-    [
-      'GET',
-      `${BASE_URL}/products/3/`,
-      null,
-      { tags: { name: 'homepage' } },
-    ],
+    // [
+    //   'GET',
+    //   `${BASE_URL}/products/1/styles`,
+    //   null,
+    //   { tags: { name: 'homepage' } },
+    // ],
+    // [
+    //   'GET',
+    //   `${BASE_URL}/products/2/styles`,
+    //   null,
+    //   { tags: { name: 'homepage' } },
+    // ],
+    // [
+    //   'GET',
+    //   `${BASE_URL}/products/1/related`,
+    //   null,
+    //   { tags: { name: 'homepage' } },
+    // ],
   ]);
 
   sleep(1);

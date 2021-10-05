@@ -6,3 +6,4 @@ config.js
 sdc_backup.gz
 ocelotCA.pem
 loaderio-4c9a8638b1421446b6c5801c39d17c99.txt
+sdc_local_backup

@@ -1,17 +1,17 @@
 const pool = require('..');
 
 const models = {
-  products: ({ page, count }, callback) => {
+  products: async ({ page, count }, callback) => {
     let queryMessage;
     let params;
     if (!page && !count) {
       queryMessage = 'SELECT id, name, slogan, description, category, default_price FROM products LIMIT 5';
-      pool.query(queryMessage, (err, res) => {
+      await pool.query(queryMessage, (err, res) => {
         callback(err, res);
       });
     } else if (!page && count) {
       queryMessage = 'SELECT id, name, slogan, description, category, default_price FROM products LIMIT $1';
-      pool.query(queryMessage, [count], (err, res) => {
+      await pool.query(queryMessage, [count], (err, res) => {
         callback(err, res);
       });
     } else if (page && !count) {
@@ -21,7 +21,7 @@ const models = {
         FROM products
         WHERE id BETWEEN $1 AND $2
       `;
-      pool.query(queryMessage, params, (err, res) => {
+      await pool.query(queryMessage, params, (err, res) => {
         callback(err, res);
       });
     } else {
@@ -36,18 +36,18 @@ const models = {
         WHERE id BETWEEN $1 AND $2
         LIMIT $3
       `;
-      pool.query(queryMessage, params, (err, res) => {
+      await pool.query(queryMessage, params, (err, res) => {
         callback(err, res);
       });
     }
   },
-  productId: (params, callback) => {
+  productId: async (params, callback) => {
     const queryMessage = 'SELECT id, name, slogan, description, category, default_price, featuresArray FROM products WHERE id=$1';
-    pool.query(queryMessage, [params], (err, res) => {
+    await pool.query(queryMessage, [params], (err, res) => {
       callback(err, res);
     });
   },
-  styles: (params, callback) => {
+  styles: async (params, callback) => {
     const queryMessage = `
       SELECT
         s.style_id, s.name, s.original_price, s.sale_price,
@@ -81,13 +81,13 @@ const models = {
       GROUP BY s.style_id
       ORDER BY s.style_id ASC
     `;
-    pool.query(queryMessage, [params], (err, res) => {
+    await pool.query(queryMessage, [params], (err, res) => {
       callback(err, res);
     });
   },
-  related: (params, callback) => {
+  related: async (params, callback) => {
     const queryMessage = 'SELECT relatedarray FROM products WHERE id=$1';
-    pool.query(queryMessage, [params], (err, res) => {
+    await pool.query(queryMessage, [params], (err, res) => {
       callback(err, res);
     });
   },
