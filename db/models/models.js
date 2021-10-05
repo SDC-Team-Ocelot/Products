@@ -1,19 +1,16 @@
 const pool = require('..');
 
 const models = {
-  products: async ({ page, count }, callback) => {
+  products: async ({ page, count }) => {
     let queryMessage;
     let params;
+    let results;
     if (!page && !count) {
       queryMessage = 'SELECT id, name, slogan, description, category, default_price FROM products LIMIT 5';
-      await pool.query(queryMessage, (err, res) => {
-        callback(err, res);
-      });
+      results = await pool.query(queryMessage);
     } else if (!page && count) {
       queryMessage = 'SELECT id, name, slogan, description, category, default_price FROM products LIMIT $1';
-      await pool.query(queryMessage, [count], (err, res) => {
-        callback(err, res);
-      });
+      results = await pool.query(queryMessage, [count]);
     } else if (page && !count) {
       params = [Number(page) * 5 - 4, Number(page) * 5];
       queryMessage = `
@@ -21,9 +18,7 @@ const models = {
         FROM products
         WHERE id BETWEEN $1 AND $2
       `;
-      await pool.query(queryMessage, params, (err, res) => {
-        callback(err, res);
-      });
+      results = await pool.query(queryMessage, params);
     } else {
       if (count > 5) {
         params = [Number(page) * 5 - 4, Number(page) * 5 - 4 + Number(count), count];
@@ -36,18 +31,16 @@ const models = {
         WHERE id BETWEEN $1 AND $2
         LIMIT $3
       `;
-      await pool.query(queryMessage, params, (err, res) => {
-        callback(err, res);
-      });
+      results = await pool.query(queryMessage, params);
     }
+    return results;
   },
-  productId: async (params, callback) => {
+  productId: async (params) => {
     const queryMessage = 'SELECT id, name, slogan, description, category, default_price, featuresArray FROM products WHERE id=$1';
-    await pool.query(queryMessage, [params], (err, res) => {
-      callback(err, res);
-    });
+    const results = await pool.query(queryMessage, [params]);
+    return results;
   },
-  styles: async (params, callback) => {
+  styles: async (params) => {
     const queryMessage = `
       SELECT
         s.style_id, s.name, s.original_price, s.sale_price,
@@ -81,15 +74,13 @@ const models = {
       GROUP BY s.style_id
       ORDER BY s.style_id ASC
     `;
-    await pool.query(queryMessage, [params], (err, res) => {
-      callback(err, res);
-    });
+    const results = await pool.query(queryMessage, [params]);
+    return results;
   },
-  related: async (params, callback) => {
+  related: async (params) => {
     const queryMessage = 'SELECT relatedarray FROM products WHERE id=$1';
-    await pool.query(queryMessage, [params], (err, res) => {
-      callback(err, res);
-    });
+    const results = await pool.query(queryMessage, [params]);
+    return results;
   },
 };
 
