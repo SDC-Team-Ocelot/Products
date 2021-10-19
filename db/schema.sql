@@ -93,13 +93,15 @@ ALTER TABLE public.skus
     NOT VALID;
 
 CREATE INDEX products_id_index ON products (id);
-CREATE INDEX skus_id_index ON skus (id);
 CREATE INDEX skus_style_id_index ON skus (style_id);
-CREATE INDEX photos_id_index ON photos (id);
 CREATE INDEX photos_style_id_index ON photos (style_id);
 CREATE INDEX styles_style_id_index ON styles (style_id);
+
 CREATE INDEX styles_product_id_index ON styles (product_id);
+CREATE INDEX skus_id_index ON skus (id);
+CREATE INDEX photos_id_index ON photos (id);
 
 ANALYZE;
 
 END;
+

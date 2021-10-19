@@ -41,41 +41,63 @@ const models = {
     return results;
   },
   styles: async (params) => {
-    const queryMessage = `
-      SELECT
-        s.style_id, s.name, s.original_price, s.sale_price,
-        s.default_style AS "default?",
-        CASE WHEN count(ps) = 0
-          THEN ARRAY[]::json[]
-          ELSE array_agg(ps.photos)
-        END AS photos,
-        CASE WHEN count(sku) = 0
-          THEN '{}'::json
-          ELSE json_object_agg(sku.id, sku.sk)
-          FILTER (WHERE sku.id IS NOT NULL)
-        END AS skus
-      FROM styles s
-      LEFT JOIN (
+    try {
+      const queryPhotos = `
         SELECT
-          skus.style_id,
-          skus.id,
-          json_build_object('quantity', quantity, 'size', size) AS sk
-        FROM skus
-      ) sku
-      ON s.style_id = sku.style_id
-      LEFT JOIN (
+          s.style_id, s.name, s.original_price, s.sale_price,
+          s.default_style AS "default?",
+          CASE WHEN count(ps) = 0
+            THEN ARRAY[]::json[]
+            ELSE array_agg(ps.photos)
+          END AS photos
+        FROM styles s
+        LEFT JOIN (
+          SELECT
+            photos.style_id,
+            json_build_object('url', photos.url,'thumbnail_url', photos.thumbnail_url) AS photos
+          FROM photos
+        ) ps
+        ON s.style_id = ps.style_id
+        WHERE s.product_id = $1
+        GROUP BY s.style_id
+        ORDER BY s.style_id ASC
+      `;
+      const querySkus = `
         SELECT
-          photos.style_id,
-          json_build_object('url', photos.url,'thumbnail_url', photos.thumbnail_url) AS photos
-        FROM photos
-      ) ps
-      ON s.style_id = ps.style_id
-      WHERE s.product_id = $1
-      GROUP BY s.style_id
-      ORDER BY s.style_id ASC
-    `;
-    const results = await pool.query(queryMessage, [params]);
-    return results;
+          CASE WHEN count(sku) = 0
+              THEN '{}'::json
+              ELSE json_object_agg(sku.id, sku.sk)
+              FILTER (WHERE sku.id IS NOT NULL)
+            END AS skus
+        FROM styles s
+        LEFT JOIN (
+          SELECT
+            skus.style_id,
+            skus.id,
+            json_build_object('style_id', skus.style_id, 'quantity', quantity, 'size', size) AS sk
+          FROM skus
+        ) sku
+        ON sku.style_id = s.style_id
+        WHERE s.product_id = $1
+        GROUP BY s.style_id
+        ORDER BY s.style_id ASC
+      `;
+
+      const photos = await pool.query(queryPhotos, [params]);
+      const skus = await pool.query(querySkus, [params]);
+
+      await Promise.all(photos.rows.map((style, idx) => {
+        style.skus = skus.rows[idx].skus;
+      }));
+
+      const results = {
+        product_id: params,
+        results: photos.rows,
+      };
+      return results;
+    } catch (err) {
+      return err;
+    }
   },
   related: async (params) => {
     const queryMessage = 'SELECT relatedarray FROM products WHERE id=$1';

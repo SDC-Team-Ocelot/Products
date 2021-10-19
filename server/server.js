@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 
-const LOADER_PATH = path.resolve(__dirname, '..', 'loaderio-51af87a5987d8a38b3d88a203d8634b6.txt');
+const LOADER_PATH = path.resolve(__dirname, '..', 'loaderio-4554a4aec17a29992dfc07ce533e11ab.txt');
 
 // const parseProduct = require('../parsingScripts/parseProduct');
 // const parseFeatures = require('../parsingScripts/parseFeatures');
@@ -25,5 +25,5 @@ const routes = require('./routes');
 server.use(morgan('dev'));
 server.use(express.json());
 server.use('/', routes);
-server.use('/loaderio-51af87a5987d8a38b3d88a203d8634b6.txt', express.static(LOADER_PATH));
+server.use('/loaderio-4554a4aec17a29992dfc07ce533e11ab.txt', express.static(LOADER_PATH));
 module.exports = server;

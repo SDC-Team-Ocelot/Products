@@ -44,20 +44,7 @@ const controllers = {
   styles: async (req, res) => {
     try {
       const data = await models.styles(req.params.id);
-      const productInfo = data.rows;
-      productInfo.forEach((style, idx) => {
-        const photosArr = style.photos;
-        let tempUrl;
-        const uniquePhotos = [];
-        photosArr.forEach((url) => {
-          if (JSON.stringify(tempUrl) !== JSON.stringify(url)) {
-            uniquePhotos.push(url);
-          }
-          tempUrl = url;
-        });
-        productInfo[idx].photos = uniquePhotos;
-      });
-      res.status(200).send(productInfo);
+      res.status(200).send(data);
     } catch (err) {
       res.status(400).send(err);
     }

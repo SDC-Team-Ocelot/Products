@@ -1,5 +1,6 @@
 node_modules
 exampleData/
+.vscode/
 csv/
 config.js
 *.pgerd
