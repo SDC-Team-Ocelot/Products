@@ -12,29 +12,13 @@ export let options = {
 
 export default function () {
   const BASE_URL = 'http://localhost:3000'; // make sure this is not production
-
+  const min = 900011;
+  const max = 1000011;
+  const randID = Math.floor(Math.random() * (max - min + 1) + min);
   let responses = http.batch([
     [
       'GET',
-      `${BASE_URL}/products/1/`,
-      null,
-      { tags: { name: 'homepage' } },
-    ],
-    [
-      'GET',
-      `${BASE_URL}/products/1/styles`,
-      null,
-      { tags: { name: 'homepage' } },
-    ],
-    [
-      'GET',
-      `${BASE_URL}/products/2/styles`,
-      null,
-      { tags: { name: 'homepage' } },
-    ],
-    [
-      'GET',
-      `${BASE_URL}/products/3/`,
+      `${BASE_URL}/products/${randID}/styles`,
       null,
       { tags: { name: 'homepage' } },
     ],
